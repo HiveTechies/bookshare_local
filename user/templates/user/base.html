@@ -1,0 +1,116 @@
+{% load static %}
+{% load humanize %}
+{% load bootstrap4 %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+    <link href="{% static 'tellme/feedback.min.css' %}" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+    <link rel="icon" href="{% static 'logo_top.svg' %}">
+    <script src="https://kit.fontawesome.com/2f18b7f943.js" crossorigin="anonymous"></script>
+    {% if title%}
+  <title>Zoro - {{  title  }}</title>
+  {%else%}
+  <title>Zoro</title>
+  {%endif%}
+  {% block extrahead %}{% endblock extrahead %}
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <img class="w-5" src="{% static 'logo.svg' %}" alt="Zoro" style="width:40px;">
+        </a>
+        <h3 id="sitetitle navbar-brand">Zoro</h3>
+        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#navbarToggle"
+          aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggle">
+          <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link" href="{% url 'allbooks' %}"> Books</a>
+            <a class="nav-item nav-link" href="{% url 'trending' %}"> Trending</a>
+            <a class="nav-item nav-link" href="{% url 'blog-home' %}"> Blog</a>
+            <a class="nav-item nav-link" href="{% url 'genre' %}">Genre</a>
+          </div>
+          <!-- Navbar Right Side -->
+          <div class="navbar-nav">
+            {% if request.user.is_authenticated %}
+            <a class="nav-item nav-link" href="{% url 'studio' %}" ><img class="w-5" src="{% static 'logo.svg' %}" alt="Zoro" style="width:20px;"> Studio</a>
+            <a class="nav-item nav-link" href="{% url 'profile' %}" style="font-size: 16px;"><img class="w-5" src="{{ user.profile.image.url }}" alt="Profile Img" style="width:20px;">{{request.user.username}} </a> 
+          <div class="dropdown show dropleft">
+            <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+            <div class="dropdown-menu shadow p-3" aria-labelledby="dropdownMenuLink">
+              <a class="nav-item nav-link" href="/messages" ><i class="fas fa-envelope icon"></i> Messages</a>
+              <div class="dropdown-divider"></div>
+              <a class="nav-item nav-link " href="{% url 'favorites' %}"><i class="fas fa-heart"></i> Favourites</a>
+              <a class="nav-item nav-link" href="{% url 'collection' %}"><i class="fas fa-bookmark icon"></i> Collections</a>
+              <div class="dropdown-divider"></div>
+              <a class="nav-item nav-link" href="{% url 'following' %}" ><i class="fas fa-user-friends"></i> Following</a>
+              <a class="nav-item nav-link" href="{% url 'friendship_home' %}" ><i class="fas fa-user-friends"></i> Friends</a>
+              <div class="dropdown-divider"></div>
+              <a class="nav-item nav-link" href="{% url 'user_logout' %}"><i class="fas fa-sign-out-alt icon"></i> Logout</a>
+            </div>
+          </div>
+            {% else %}
+            <a class="nav-item nav-link" href="{% url 'about' %}"> About </a>
+            <a class="nav-item nav-link" href="{% url 'user_login' %}"> LogIn </a>
+            <a class="nav-item nav-link" href="{% url 'register' %}"> SignUp </a>
+            {% endif%}
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  
+  <main role="main" class="container-fluid" >
+    <div class="row">
+      <div class="col">
+        <div id='messages'>
+          {% include 'user/messages.html' %}
+        </div>
+        {% block auth %}
+        {% endblock %}
+        {% block  postman_menu %}
+        {% endblock %}
+        {% block content %}
+        {% endblock content %}
+      </div>
+    </div>
+</main>
+  <br><br><br>
+  {% block extra_js %}{% endblock extra_js %}
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}" type="text/javascript"></script>
+  <script>
+    
+  </script>
+  
+  {% block javascript %}
+  {% endblock %}  
+  {% include 'user/scripts.html' %}
+  {% include 'user/footer.html' %}
+</body>
+</html>

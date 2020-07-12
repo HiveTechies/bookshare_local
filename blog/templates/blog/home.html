@@ -1,0 +1,65 @@
+{% extends "user/base.html" %}
+{% load bootstrap4 %}
+{% load static %}
+
+<script src="{% static 'hitcount/jquery.postcsrf.js' %}"></script>
+{% load hitcount_tags %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between container rounded p-2">
+  <h4 class=" text-dark">Zoro Blog</h4>
+  <abbr title="Create New Post"><a class="btn btn-success shadow rounded" href="{% url 'post-create' %}"><i class="fas fa-plus"></i></a></abbr>
+</div>
+<div class="container">
+  {% if post_filter.form %}
+  <form method='GET' class="form-inline my-2 my-lg-0 justify-content-center pb-5">
+    {% bootstrap_form post_filter.form %}&nbsp;&nbsp;
+    <button class="btn btn-light border-dark shadow">Search</button>
+  </form>
+  {% endif %}
+
+    {% for post in posts %}
+        <article class="media content-section shadow rounded mb-2 p-4 border border-white">
+          <img class="rounded-circle align-self-center pr-2" src="{{ post.author.profile.image.url }}" style="width: 75px;height: 75px;">
+          <div class="media-body media1 p-2">
+            <div class="article-metadata">
+              <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+              <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+            </div>
+            <h4 style="width: 30%;height: auto;font-size: larger;" class="text-truncate"><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h4>
+            <small class="text-muted"><span>{{ post.hit_count.hits }}</span> views</small><br>
+              {% for tag in post.tags.all %}
+                  <a class="mr-6" href="{% url 'tag_posts' tag %}"><span class="badge badge-light btn-outline-dark">#{{tag}}</span></a>
+              {% endfor %}
+          </div>
+        </article>
+    {% endfor %}
+  </div>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+        // use the template tags in our JavaScript call
+        $.postCSRF("{{ hitcount.ajax_url }}", { hitcountPK : "{{ hitcount.pk }}" })
+          .done(function(data){
+          $('<i />').text(data.hit_counted).attr('id','hit-counted-value').appendTo('#hit-counted');
+          $('#hit-response').text(data.hit_message);
+        }).fail(function(data){
+          console.log('POST failed');
+          console.log(data);
+        });
+      });
+      </script>
+
+
+    <ul class="pagination justify-content-center">
+      {% if posts.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+      <li class="page-item"><a class="page-link" href="?{{ page_request_var }}={{ posts.previous_page_number }}">{{posts.number|add:"-1"}}</a></li>
+      {% endif %}
+      <li class="page-item active"><p class="page-link">{{ posts.number }} </p></li>
+      {% if posts.has_next %}
+      <li class="page-item"><a class="page-link" href="?{{ page_request_var }}={{ posts.next_page_number }}"> {{posts.number|add:"1"}}</a></li>
+      <li class="page-item"><a class="page-link" href="?{{ page_request_var }}={{ posts.paginator.num_pages }}">Last</a></li>
+      {% endif %}
+    </ul>
+{% endblock content %}

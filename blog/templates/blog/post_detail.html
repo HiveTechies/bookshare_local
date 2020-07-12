@@ -1,0 +1,63 @@
+{% extends "user/base.html" %}
+{% load comment_tags %}
+{% block content %}
+{% load humanize %}
+{% load friendshiptags %}
+  <div class="container">
+    <h3 style="font-size:xx-large;font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;font-weight: 200;">{{ object.title }}</h3>
+  <div class="row ml-2 inline d-flex align-items-center">
+    <img src="{{object.author.profile.image.url}}" alt="" class="rounded-circle d-flex justify-content-center" style="width: 5vw;height: auto;">
+    
+    <div class="col inline">
+      <div class="inline follow_div">
+        <a href="{% url 'user-posts' object.author.username %}" class="text-muted" style="text-decoration:none;font-size:large;">{{object.author.username}}</a>
+        {% if object.author != user %}
+          {% csrf_token %}
+          <button href="" class="btn-sm btn-dark rounded follow ml-2" style="font-size: small;">Follow</button>
+        {% endif %}
+      </div>
+      <div class="inline">
+        <small class="text-muted" style="font-size: small;">{{ object.date_posted|date:"F d, Y" }}</small>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid mt-3">
+    {% if object.author == user %}
+      <div class="dropdown">
+        <a class="btn" href="#" role="button" id="dropdownPost" data-toggle="dropright" aria-haspopup="true" aria-expanded="false" style="color: black;float: right;"><i class="fas fa-ellipsis-h fa-lg"></i></a>
+        <div class="dropdown-menu dropdown-menu-right shadow p-3" aria-labelledby="dropdownPost">
+          <a class="nav-item nav-link" href="{% url 'post-update' object.id %}" style="color: green;"><i class="fas fa-edit icon" style="color: green;"></i> Edit Post</a>
+          <a class="nav-item nav-link" href="{% url 'post-delete' object.id %}" style="color: red;"><i class="fas fa-trash icon" style="color: red;"></i> Delete Post</a>
+        </div>
+      </div>
+    {% endif %}
+    <p class="article-content" style="font-size: large;">{{object.content|safe}}</p>
+  </div>
+  {% for tag in post.tags.all %}
+    <a class="mr-6" href="{% url 'tag_posts' tag %}"><span class="badge badge-light btn-outline-dark">#{{tag}}</span></a>
+  {% endfor %}
+  </div>
+  <div class="container rounded shadow-sm">
+    {% render_comments post request comments_per_page=5 %}
+  </div>
+{% endblock content %}
+{% block javascript %}
+<script  type="text/javascript">
+    $('.follow').click(function(){
+    $.ajax({
+      type:'POST',
+      url:'/follow/',
+      data:{
+        'follower_id':'{{user.id}}',
+        'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
+      },
+      success:function(data){
+        $('.follow_div').html(`
+        <a href="{% url 'user-posts' object.author.username %}" class="text-muted" style="text-decoration:none;font-size:large;">{{object.author.username}}</a>
+        <button class="follow btn btn-primary shadow">Unfollow</button>`
+        ) ;
+      }
+    });
+});
+</script>
+{% endblock %}

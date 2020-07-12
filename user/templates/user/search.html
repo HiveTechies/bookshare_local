@@ -1,0 +1,98 @@
+<div id="search" style="position: relative">
+    <form id="formSearch" method="post">
+        {% csrf_token %}
+    <p>
+        <input id="keyword" name="keyword" value="" class="text" autocomplete="off" />
+        <button id="imgSearch" class="btn" onclick="return false;" >Search</button>
+    </p>
+    <div id="result_box" style="display: none; left: 3px; margin-top: -3px">
+    </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $('#imgSearch').click(function () {
+        Submit();
+    });
+
+    var delay = (function () {
+        var timer = 0;
+        return function (callback, ms) {
+            clearTimeout(timer);
+            timer = setTimeout(callback, ms);
+        };
+    })();
+
+    $('#keyword').keyup(function () {
+        delay(function () {
+            Suggest();
+        }, 1000);
+    });
+
+    $('#selectSearch').change(function () {
+        alert('hello');
+
+        Suggest();
+    });
+
+    $("#selectSearch option").each(function () {
+        alert('hello');
+
+        var url = location.href;
+        if (url.indexOf($(this).attr('value')) != -1)
+            $(this).attr("selected", "selected");
+    });
+
+    function Submit() {
+        alert('hello');
+
+        if ($.trim($('#keyword').val()).length < 2) {
+            $('#keyword').blur();
+            alert('Keyword must be more than one character!');
+        } else {
+            $("#formSearch").submit();
+        }
+    }
+
+    function Suggest() {
+        var keyword = $.trim($('#keyword').val());
+        if (keyword.length < 5) return;
+        if (keyword != "") {
+            $('#result_box').html("<span id='loader'></span>");
+            $('#result_box').css('display', 'block');
+            
+            $.ajax(
+            {
+                type: "POST",
+                url: "/book/home/",
+                data:{
+                        'keyword':$(this).attr('keyword'),
+			            'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function (message) {
+                    if (message != "") {
+                        $('#result_box').html(message);
+                    }
+                    else {
+                        //$('#result_box').html('');
+                        //$('#result_box').css('display', 'none');
+                        $('#result_box').html('<a href="#" onclick="return false;">Press Enter to search...</a>');
+                    }
+                }
+            });
+            
+            $('#result_box').html('<a href="#" onclick="return false;">Press Enter to search...</a>');
+        }
+        else {
+            $('#result_box').html('');
+            $('#result_box').css('display', 'none');
+        }
+    }
+
+
+    $(document).click(function (e) {
+        var container = $("#search");                        
+        if (container.has(e.target).length == 0) {
+            $("#result_box").hide();
+        }
+    });
+</script>

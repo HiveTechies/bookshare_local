@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="d-flex align-items-center">
+        <img src="{{object.author.profile.image.url}}" alt="" class="rounded-circle" style="width: 50px;height: 50px;">
+    </div>
+    <div class="ml-2 col-md-2">
+      <div class="inline follow_div d-flex align-items-center">
+        <a href="{% url 'user-posts' object.author.username %}" class="text-muted" style="text-decoration:none;font-size:17px;">{{object.author.username}}</a>
+       {% csrf_token %}
+       <a href="" class="btn-sm btn-dark rounded follow ml-2">Follow</a>
+      </div>
+      <div class="inline">
+        <small class="text-muted d-flex align-items-center">{{ object.date_posted|date:"F d, Y" }}</small>
+      </div>
+    </div>
+</div>

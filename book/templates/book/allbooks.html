@@ -1,0 +1,108 @@
+{% extends 'user/base.html' %}
+{% load crispy_forms_tags %}
+{% load ratings %}
+{% load static %}
+{% load bootstrap4 %}
+{% load humanize %}
+{% load qr_tags %}
+<script src="{% static 'hitcount/jquery.postcsrf.js' %}"></script>
+{% load hitcount_tags %}
+
+{% block content %}
+<br><br>
+	<h4>{{about}}</h4>
+	<!-- SHOWING COLLECTION NAME -->
+	<h4 class="d-flex justify-content-left text-dark"><strong>{{message|safe}}</strong> </h4>
+	<h5> {{collection_name}}</h5>
+	{% if books %}
+	<div class="container-fluid">
+		<div class="mb-4">
+			{% if book_filter.form %}
+			<form method='GET' class="form-inline my-2 my-lg-0 justify-content-center">
+				{% bootstrap_form book_filter.form %}&nbsp;&nbsp;
+				<button class="btn btn-light border-dark shadow">Search</button>
+			</form>
+			{% endif %}
+		</div>
+		<div class="card-columns">
+		{% for book in books %}
+		<div class="card mb-3 shadow border " style="max-width: 540px;">
+			<div class="row no-gutters">
+			<div class="col-md-5">
+				<a href="{% url 'detail' book.id %}">
+					<img src="{{book.image}}" class="card-img w-100" alt="..." id='bg_image{{book.id}}' onerror="this.onerror=null;this.src='/media/book-ph.png'">
+				</a>
+			</div>
+			<div class="col-md-7">
+				<div class="card-body">
+				<!--Makes book name and dropdown to single line-->
+					<div class="btn-group dropdown show">
+						<a href="{% url 'detail' book.id %}" class="card-title nav-link p-1 h5 lead">
+							{{ book.name }}
+						</a>
+						
+					</div><br>
+					<p class="card-text"><small> <i class="fas fa-feather-alt"></i> {{book.author}}</small> &middot; <span>{{ book.hit_count.hits }} </span> <small>views</small></p>
+					
+					{% if user.is_authenticated %}
+
+					{% endif %}
+					{% for genre in book.genre.all %}
+					<a class="mr-6" class="card-text nav-link" href="{% url 'genre-book' genre %}"> <small>※{{genre}}</small> </p>
+					{% endfor %}
+					{% for tag in book.tags.all %}
+					<a class="mr-6" href="{% url 'tag_books' tag %}"><span class="badge badge-light btn-outline-success ">#{{tag}}</span></a>
+					{% endfor %}
+					<p class="card-text"><small class="text-muted">{{book.published_date|timesince }} ago</small></p>
+          <p class="card-text"><small class="text-muted">{{ book.published_year }}</small></p>
+	        <p class="card-text"><small class="text-muted">{{ book.publisher }}</small></p>
+        </div>
+			</div>
+		</div>
+		</div>
+		<script>
+			var img = document.getElementById('bg_image{{book.id}}');
+			var height = img.height;
+			var width = img.width;
+			if(height<50 || width<200){
+				$('#bg_image{{book.id}}').attr('src','/media/book-ph.png');
+			}
+		</script>
+		{% endfor %}
+	</div>
+</div>
+{% else %}
+<div>
+	<img src="/media/empty.png" alt="" class="rounded mx-auto d-block w-25">
+	<h5 class="d-flex text-success justify-content-center">Add books to {{message}}, to see here.</h5>
+</div>
+{% endif %}
+
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+// use the template tags in our JavaScript call
+$.postCSRF("{{ hitcount.ajax_url }}", { hitcountPK : "{{ hitcount.pk }}" })
+	.done(function(data){
+	$('<i />').text(data.hit_counted).attr('id','hit-counted-value').appendTo('#hit-counted');
+	$('#hit-response').text(data.hit_message);
+}).fail(function(data){
+	console.log('POST failed');
+	console.log(data);
+});
+});
+</script>
+
+
+<!-- Pagination -->
+<ul class="pagination justify-content-center">
+	{% if books.has_previous %}
+	<li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+	<li class="page-item"><a class="page-link" href="?{{ page_request_var }}={{ books.previous_page_number }}">{{books.number|add:"-1"}}</a></li>
+	{% endif %}
+	<li class="page-item active"><p class="page-link">{{ books.number }} </p></li>
+	{% if books.has_next %}
+	<li class="page-item"><a class="page-link" href="?{{ page_request_var }}={{ books.next_page_number }}"> {{books.number|add:"1"}}</a></li>
+	<li class="page-item"><a class="page-link" href="?{{ page_request_var }}={{ books.paginator.num_pages }}">Last</a></li>
+	{% endif %}
+</ul>
+{% endblock content %}

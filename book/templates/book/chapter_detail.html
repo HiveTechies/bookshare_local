@@ -1,0 +1,34 @@
+{% extends "user/base.html" %}
+{% load ratings %}
+{% load pinax_likes_tags %}
+{% load comment_tags %}
+{% block content %}
+{% load qr_tags %}
+
+{% likes_widget request.user chapter %}
+
+  <div class="row">
+    <div class="col-md-8">
+    <h4 class="card-title">Book: {{chapter.book.name}} <br> Chapter: {{ chapter.name }}</h4>
+    <small>{{chapter.published_date}}</small>
+    <h6>Author: {{chapter.book.author}}</h6>
+  </div>
+  <div class="col-md-4">
+      <div class="row">
+       {% qr_from_object chapter "s" %}
+      </div>
+     <div class="row">
+       <small class="text-muted">Scan to open chapter <br> in your mobile</small>
+     </div>
+  </div>
+  </div>
+      <p class="card-text chapter-content">
+        Chapter content <br>
+        {{ chapter.content|safe }}
+      </p>
+      <a href="{% url 'chapter-update' chapter.id %}"><i class="far fa-edit"></i></a>
+      <div class="comments">
+        <h5 class="text-center">Comments</h5>
+        {% render_comments chapter request comments_per_page=5 %}
+      </div>
+{% endblock content %}

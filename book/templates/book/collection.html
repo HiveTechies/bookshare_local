@@ -1,0 +1,12 @@
+{% extends 'user/base.html' %}
+{% block content %}
+    <div class='shadow'>
+    {% if collections %}
+    {% for collection in collections %}
+        <a class="mr-4 btn btn-success" href="{% url 'books_in_collection' collection.id %}" >{{collection.name}}</a>
+    {% endfor %}
+    {% else %}
+        <small class="pt-2 pb-4 d-flex justify-content-center"><strong>Create collections to see here and bookmark books easily!</strong></small>
+    {% endif %}
+    </div>
+{% endblock content %}

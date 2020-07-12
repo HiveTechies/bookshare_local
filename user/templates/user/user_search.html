@@ -1,0 +1,17 @@
+{% extends "user/base.html" %}
+{% block content %}
+<form method="get" action="user_search">
+	{{ users.form }}
+	<button class="btn btn-primary" type="submit">Search</button>
+</form>
+	Users
+	{% for user in users.qs %}
+	<div class="card text-center md">
+		{{user.username}}
+		{{ user.first_name }}
+		{{ user.last_name }}
+		{{user.email}}
+		<a href="{% url 'friendship_add_friend' user.username %}" style="color: red;"><i class="fas fa-user-friends"></i></a>
+	</div>
+    {% endfor %}
+{% endblock %}

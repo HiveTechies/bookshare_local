@@ -1,0 +1,40 @@
+{% extends 'user/base.html' %}
+{% load studio %}
+{% load static %}
+{% load bootstrap4 %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="container">
+<!--Show write book and start chapter buttons from author-->
+<div class="">
+      <a class="btn btn-success shadow rounded mr-4 mb-3" href="{% url 'todo:lists' %}">Todo Lists</a>
+      <a class="btn btn-success shadow rounded mr-4 mb-3" href="{% url 'todo:mine' %}">My Tasks</a>
+      <a class="btn btn-success shadow rounded mr-4 mb-3" href="{% url 'book-create' %}">Start Book</a>
+      <a class="btn btn-success shadow rounded mb-3" href="{% url 'chapter-create' %}">Release Chapter</a>
+</div>
+<div>
+    <h3> Total Reads</h3>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#published" role="tab" aria-controls="published" aria-selected="true">Published Books </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#drafted" role="tab" aria-controls="drafted" aria-selected="false">Drafted Books </a>
+  </li>
+  </ul>
+  <!-- Tab panes -->
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="published" role="tabpanel" aria-labelledby="home-tab">
+     {% published_books %}
+    </div>
+  <div class="tab-pane fade" id="drafted" role="tabpanel" aria-labelledby="profile-tab">
+     {% drafted_books %}
+    </div>
+  </div>
+
+</div>
+<br>
+    </div>
+{% endblock content %}

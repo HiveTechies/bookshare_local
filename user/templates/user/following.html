@@ -1,0 +1,8 @@
+{% extends 'user/base.html' %}
+{% load friendshiptags %}
+
+{% block content %}
+
+{% following request.user %}
+
+{% endblock content %}

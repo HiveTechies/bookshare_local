@@ -1,0 +1,242 @@
+{% extends "user/base.html" %}
+{% load ratings %}
+{% load static %}
+{% load bootstrap4 %}
+{% load comment_tags %}
+{% load humanize %}
+{% load qr_tags %}
+{% load tracking_tags %}
+    {% block content %}
+  
+      <div class="row mb-5 ">
+            <div class="col-md-3 d-flex justify-content-center">
+              <img class="rounded" src="{{book.image}}" alt="{{book.name}} cover page" id='bg_image'>              
+            </div>
+            <div class="col-md-6">
+              <h5 class="card-title p-3 lead" style="display: inline;text-align: center;">{{ book.name }}</h5>
+              <!-- Button to Open the Modal -->
+              
+              {% visitors_on_page as same_page %}
+              <p>
+                  {{ same_page }} of {{ visitors }} active user{{ visitors|pluralize }}
+                  {% ifequal same_page 1 %}is{% else %}are{% endifequal %} reading this page
+              </p>
+              {% if user.is_authenticated %}
+              
+              <button type="button" class="btn btn-light" data-toggle="modal" data-target="#collection"><i class="far fa-bookmark"></i></button>
+              <!-- The Modal -->
+                <div class="modal" id="collection">
+                  <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+
+                      <!-- Modal Header -->
+                      <div class="modal-header">
+                        <h4 class="modal-title">Your Collections</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      </div>
+
+                      <!-- Modal body -->
+                      <div class="modal-body" id='addcollection' name='{{book.id}}'>
+                        {% if user.collections.all %}
+                        {% for collection in user.collections.all %}
+                        {% csrf_token %}
+                          {% if book in collection.books.all %}
+                            <input type="checkbox" class="collection" name="{{collection.id}}" id="collection{{collection.id}}"  book_id='{{book.id}}' collection_id='{{collection.id}}' checked ><label for="{{collection.id}}"> &nbsp;&nbsp;{{collection.name}}</label><br></input>
+                            
+                          {% else %}
+                            <input type="checkbox" class="collection" name="collection{{collection.id}}" id="collection{{collection.id}}"  book_id='{{book.id}}' collection_id='{{collection.id}}'><label for="{{collection.id}}"> &nbsp;&nbsp;{{collection.name}}</label><br></input>
+                          {% endif %}
+                        {% endfor %} 
+                        {% else %}
+                        <small class="pt-2 pb-4 d-flex justify-content-center"><strong>Create collections to see here and bookmark books easily!</strong></small>
+                        {% endif %}
+                      </div>
+
+                      <!-- Modal footer -->
+                      <div class="modal-footer">
+                        <form class="form-inline my-2 my-lg-0" method="POST" id="new_collection">{% csrf_token %}
+                          <input type="text" class="form-control mr-sm-2" placeholder="New Collection" aria-label="Create" name="collection" id="collection_input" size="15" onfocus="this.value=''" required>
+                          <button class="btn btn-outline-success shadow" type="submit" id="create_collection" book_id = '{{book.id}}'>Create</button>
+                        </form> 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+                {% if user.is_authenticated %}
+                  {% csrf_token %}
+                  {% if book in user.favorite.all %}
+                      <button class="btn btn-light btn-circle btn-md" id="like" name="{{ book.id }}" ><i class="foo fas fa-heart"></i></button>
+                  {% else %}
+                      <button class="btn btn-light btn-circle btn-md" id="like" name="{{ book.id }}" ><i class="foo far fa-heart"></i></button>
+                  {% endif %} &nbsp;
+                {% endif %}
+              <br>
+              <i class="fas fa-feather-alt"></i> <a class="mr-6 text-decoration-none" href="{% url 'profile_detail' book.author.username %}">{{book.author}}</a> &middot; <span>{{ book.hit_count.hits }} </span> <small>views</small>
+              <br>
+              {% for gen in book.genre.all %}
+                      <a class="mr-6" href="{% url 'genre-book' gen %}"><span class="btn">{{gen}}</span></a>
+              {% endfor %}<br>
+              {% for tag in book.tags.all %}
+                  <a class="mr-6" href="{% url 'tag_books' tag %}"><span class="badge badge-light btn-outline-dark">#{{tag}}</span></a>
+              {% endfor %}
+              <br>
+              <div class="row">
+                <div class="col-md-6 d-flex justify-content-center">
+                    {% ratings book %}
+                </div>
+              <div class="col-md-6 d-none d-lg-block d-xl-block">
+                <div id="qr" class="row d-flex justify-content-center">
+                  {% qr_from_object book "s" %}
+                </div>
+                <div class="row d-flex justify-content-center">
+                  <small class="text-muted" > Scan to open book <br> in your mobile</small>
+                </div>
+              </div>
+            </div>
+         </div>
+
+      </div>
+      <div class="container shadow rounded">
+      <div class="d-flex justify-content-xl-between" >
+        <h5 class="d-flex justify-content-start p-3">Chapter</h5>
+        <form method='GET' class="form-inline d-flex justify-content-end p-3">
+          {% bootstrap_form chapter_filter.form %}
+          <button class="btn btn-success shadow m-2">Search</button>
+        </form>
+      </div>
+        {% if chapters %}
+          {% for chapter in chapters %}
+              <a class="mr-6" href="{% url 'chapter-detail' chapter.id %}" ><span class="badge badge-info" >{{chapter}}</span></a> |
+          {% endfor %}
+        {% else %}
+        <br>
+          <small class="pt-2 pb-4 d-flex justify-content-center"><strong>No chapters in this book.</strong></small>
+        {% endif %}
+      </div>
+      <div class="container rounded shadow">
+        {% render_comments book request comments_per_page=5 %}
+      </div>
+      <!-- DONOT DELETE THIS DIV (AJAX CALL FAVORITE NOTIFIER) -->
+      <div id="notification" class="fixed-bottom col-md-4">
+      </div>
+
+      {% endblock content %}
+      
+      {% block javascript %}
+
+      <script  type="text/javascript">
+
+      // SOLVES BLANK IMAGE ERROR IN BOOK_DETAIL 
+      var img = new Image();
+      img.onload = function(){
+        if(this.height<50 || this.width<50){
+          $("#bg_image").attr("src","/media/book-ph.png");
+        }
+      }
+      img.src = '{{book.image}}';
+      // SOLVES BLANK IMAGE ERROR
+
+      // ADDING LIKE AJAX STARTS HERE
+      $('#like').click(function(){
+        $.ajax({
+          type:'POST',
+          url:'/book/add_favorite/',
+          data:{
+            'book_id':$(this).attr('name'),
+            'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
+          },
+          success:function(){
+              var icon = $('.foo');
+              var icon_fa_prefix = icon.attr('data-prefix');
+      
+              if (icon_fa_prefix === 'fas') {
+                  icon.attr('data-prefix', 'far');
+                  $('#notification').html(`
+                  <div class="alert alert-dark alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    Removed from favorites!
+                  </div>`);
+                  $("#notification").fadeTo(2000, 500).slideUp(500, function(){
+                    $("#notification").slideUp(500);
+                  });
+              } else {
+                  icon.attr('data-prefix', 'fas');
+                  $('#notification').html(`<div class="alert alert-dark alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                     Added to favorites!
+                  </div>`);
+                  $("#notification").fadeTo(2000, 500).slideUp(500, function(){
+                    $("#notification").slideUp(500);
+                  });
+              }
+            }
+        });
+      });
+
+// ADDING LIKE AJAX ENDS HERE
+
+// ADDING NEW COLLECTION AJAX STARTS HERE
+	$(document).on('submit','#new_collection',function(e){
+  e.preventDefault();
+	$.ajax({
+      type:'POST',
+      url:'/book/collection/new/',
+      data:{
+        'collection': $('#collection_input').val(),
+        'bookid':$('#addcollection').attr('name'),
+        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+      },
+      success:function(data){
+        if(data=='exists'){
+          $('#notification').html(`<div class="alert alert-dark alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                     Collection already exists
+            </div>`);
+          $("#notification").fadeTo(2000, 500).slideUp(500, function(){
+            $("#notification").slideUp(500);
+          });
+        }
+        else{
+          // Parsing html data received from view
+          html = $.parseHTML( data ),
+          // appending parsed tags to modal
+          $("#addcollection").append(html)
+        }
+      }
+	  });
+  });
+
+// ADDING NEW COLLECTION AJAX ENDS HERE
+
+
+// ADDING BOOK TO  COLLECTION AJAX STARTS HERE
+$('.collection').click(function(){
+        $.ajax({
+          type:'POST',
+          url:'/book/add_to_collection/',
+          data:{
+            'book_id':$(this).attr('book_id'),
+            'collection_id':$(this).attr('collection_id'),
+            'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
+          },
+          success:function(data){
+            if(data=='a'){
+              $('#notification').html(`<div class="alert alert-dark alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+                      Added to collection
+              </div>`);
+          }
+          else{
+            $('#notification').html(`<div class="alert alert-dark alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+                      Removed from Collection
+              </div>`);
+          }}
+        });
+  });
+
+// ADDING BOOK TO  COLLECTION AJAX ENDS HERE
+
+</script>
+{% endblock %}
