@@ -6,7 +6,6 @@ csv_file=open("final.txt").readlines()
 for i in csv_file[1:]:
     try:
         username=''.join(i.split())
-        print(username)
         user = User(username = username, password=username)
         user.save()
     except:
