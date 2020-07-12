@@ -2,15 +2,13 @@ from book.models import Book
 from django.contrib.auth.models import User
 
 # INSERTS USERS
-csv_file=open("authors.txt").readlines()
+csv_file=open("final.txt").readlines()
 for i in csv_file[1:]:
     try:
         username=''.join(i.split())
         print(username)
-        user = User.objects.filter(username=username)
-        if user.count() == 0:
-            user = User(username = username, password=username)
-            user.save()a
+        user = User(username = username, password=username)
+        user.save()
     except:
         pass
 # INSERTS BOOKS
