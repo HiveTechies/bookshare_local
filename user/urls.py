@@ -5,7 +5,6 @@ from django.conf.urls.static import static
 from django.contrib import messages
 
 
-
 urlpatterns = [
     path('',views.home, name='home'),
     path('trending/', views.trending,name="trending"),
@@ -20,7 +19,7 @@ urlpatterns = [
     path('messages/', include('postman.urls', namespace='postman'), name='messages'),
     path('user_search/', views.user_search, name='user_search'),
     path('password-reset/',
-    	auth_views.PasswordResetView.as_view(
+        auth_views.PasswordResetView.as_view(
              template_name='user/password_reset.html'
          ),
          name='password_reset'),
@@ -39,12 +38,17 @@ urlpatterns = [
              template_name='user/password_reset_complete.html'
          ),
          name='password_reset_complete'),
-    
+
     #  friendship app
     path('follow/',views.add_or_remove_follow),
     path('friendship/', include('friendship.urls')),
     path('tellme/', include("tellme.urls")),
     #user api
-    path('api/',include('user.api.user_urls'))
+    path('api/',include('user.api.user_urls')),
+    #Developers routes
+
+    path('developer_home/',views.dev_home, name='developer_home'),
+#    path('dev_form/',views.dev_form),
+    path('dev_thanks/',views.dev_thanks, name='dev_thanks'),
 ]
 

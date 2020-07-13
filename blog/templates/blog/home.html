@@ -9,13 +9,13 @@
 
 <div class="d-flex justify-content-between container rounded p-2">
   <h4 class=" text-dark">Zoro Blog</h4>
-  <abbr title="Create New Post"><a class="btn btn-success shadow rounded" href="{% url 'post-create' %}"><i class="fas fa-plus"></i></a></abbr>
+  <abbr title="Create New Post"><a class="btn btn-dark shadow rounded" href="{% url 'post-create' %}"><i class="fas fa-plus"></i></a></abbr>
 </div>
 <div class="container">
   {% if post_filter.form %}
   <form method='GET' class="form-inline my-2 my-lg-0 justify-content-center pb-5">
     {% bootstrap_form post_filter.form %}&nbsp;&nbsp;
-    <button class="btn btn-light border-dark shadow">Search</button>
+    <button class="btn btn-dark shadow">Search</button>
   </form>
   {% endif %}
 

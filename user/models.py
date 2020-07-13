@@ -38,3 +38,15 @@ class Profile(models.Model):
 
     def get_absolute_url(self):
         return reverse('profile')
+
+class Developer(models.Model):
+    name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    about = models.CharField(max_length=200)
+    languages_known = models.CharField(max_length=100)
+    mail= models.CharField(max_length=100)
+    contact = models.CharField(max_length=11)
+
+    def __str__(self):
+        return f'{self.name}'

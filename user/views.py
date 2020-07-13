@@ -1,14 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
+from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm, DeveloperRegistrationForm
 from django.contrib.auth.decorators import login_required
 from book.models import Book
 from .models import Collection, Profile
 from django.contrib.auth.models import User
 from book.models import Book
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 from friendship.models import Friend, Follow, Block
 from .filters import UserFilter
 from termsandconditions.decorators import terms_required
@@ -170,3 +169,19 @@ def add_or_remove_follow(request):
     else:
         Follow.objects.remove_follower(request.user, user)
         return HttpResponse('f')
+
+#DEVELOPER VIEWS
+
+def dev_home(request):
+    if request.method == 'POST':
+        form = DeveloperRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dev_thanks')
+    else:
+        form = DeveloperRegistrationForm()
+    return render(request, 'user/dev_form.html', {'form': form})
+
+
+def dev_thanks(request):
+    return render(request, 'user/dev_thanks.html')

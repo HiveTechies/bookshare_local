@@ -1,17 +1,20 @@
 {% extends 'user/base.html' %}
 {% load bootstrap4 %}
+{% load static %}
 {% block auth %}
 <div class="container mt-4">
     <div class="row justify-content-center ">
-        <div class="col-md-4 shadow-lg d-flex justify-content-center align-items-center p-5">
+        <div class="col-md-4 shadow-lg d-flex justify-content-center align-items-center p-5 border border-light rounded">
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom center"> Zoro LogIn</legend>
+                <legend align="center"><img class="w-5" src="{% static 'logo.svg' %}" alt="Flipin"> LogIn</legend>
+                <br>
+                <br>
                 {% bootstrap_form form %}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Login</button>
+                <button class="btn btn-dark" type="submit">Login</button>
                 <small class="text-muted ml-2">
                     <a href="{% url 'password_reset' %}">Forgot Password?</a>
                 </small><br><br>

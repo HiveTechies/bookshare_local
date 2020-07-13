@@ -1,7 +1,6 @@
-{% extends 'user/base.html' %}
+{% extends "user/base.html" %}
 {% load bootstrap4 %}
-{% load static %}
-{% block auth %}
+{% block content %}
 
 <div class="container mt-4">
     <div class="row justify-content-center ">
@@ -9,17 +8,14 @@
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend align="center"><img class="w-5" src="{% static 'logo.svg' %}" alt="Flipin">&nbsp;&nbsp; Register</legend>
+                <legend class="border-bottom mb-4">Flipin Develoopers Group</legend>
                 {% bootstrap_form form %}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">SignUp</button>
+                <button class="btn btn-outline-info" type="submit">Submit Application</button>
             </div>
-            <small class="text-muted">
-                Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
-            </small>
         </form>
         </div>
     </div>
 </div>
-{% endblock auth %}
+{% endblock %}
