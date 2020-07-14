@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .forms import ProfileUpdateForm, DeveloperRegistrationForm, ReportForm
+from .forms import DeveloperRegistrationForm, ReportForm
 from django.contrib.auth.decorators import login_required
 from book.models import Book
 from .models import Collection, Profile, ExplicitReport

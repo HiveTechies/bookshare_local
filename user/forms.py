@@ -1,11 +1,11 @@
 from django import forms
-from .models import Profile, Developer, ExplicitReport
+from .models import Developer, ExplicitReport
 
 
-class ProfileUpdateForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['image', 'quote', 'aboutme']
+#class ProfileUpdateForm(forms.ModelForm):
+#    class Meta:
+#        model = Profile
+#        fields = ['image', 'quote', 'aboutme']
 
 class ReportForm(forms.ModelForm):
     url = forms.URLField()
