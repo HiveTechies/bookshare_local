@@ -38,7 +38,8 @@ urlpatterns = [
              template_name='user/password_reset_complete.html'
          ),
          name='password_reset_complete'),
-
+    path('report/',views.report, name='report'),
+    path('report_thanks/', views.report_thanks, name='report_thanks'),
     #  friendship app
     path('follow/',views.add_or_remove_follow),
     path('friendship/', include('friendship.urls')),
@@ -47,8 +48,10 @@ urlpatterns = [
     path('api/',include('user.api.user_urls')),
     #Developers routes
 
-    path('developer_home/',views.dev_home, name='developer_home'),
+    path('dev_home/',views.dev_home, name='dev_home'),
 #    path('dev_form/',views.dev_form),
     path('dev_thanks/',views.dev_thanks, name='dev_thanks'),
+#OPEN SOURCE URLS
+    path('opensource/',views.opensource, name='opensource')
 ]
 

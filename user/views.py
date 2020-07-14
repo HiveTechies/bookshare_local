@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm, DeveloperRegistrationForm
+from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm, DeveloperRegistrationForm, ReportForm
 from django.contrib.auth.decorators import login_required
 from book.models import Book
-from .models import Collection, Profile
+from .models import Collection, Profile, ExplicitReport
 from django.contrib.auth.models import User
 from book.models import Book
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -170,6 +170,20 @@ def add_or_remove_follow(request):
         Follow.objects.remove_follower(request.user, user)
         return HttpResponse('f')
 
+def report(request):
+    if request.method == 'POST':
+        form =ReportForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('report_thanks')
+    else:
+        form = ReportForm()
+    return render(request, 'user/report_form.html', {'form': form})
+
+def report_thanks(request):
+    return render(request, 'user/report_thanks.html')
+
+
 #DEVELOPER VIEWS
 
 def dev_home(request):
@@ -185,3 +199,6 @@ def dev_home(request):
 
 def dev_thanks(request):
     return render(request, 'user/dev_thanks.html')
+
+def opensource(request):
+    return render(request, 'user/opensource.html')

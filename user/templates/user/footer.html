@@ -1,43 +1,26 @@
-<!-- Footer -->
+{% load static %}<!-- Footer -->
 <section class="container" id="footer">
     <div class="box">
       <div class="row text-center text-xs-center text-sm-left text-md-left">
         <div class="col-xs-12 col-sm-3 col-md-3">
           <h5>Reader</h5>
           <ul class="list-unstyled quick-links">
-            <li><a href="{% url 'allbooks' %}"><i class="fa fa-angle-double-right"></i>Home</a></li>
-            <li><a href="{% url 'about' %}";"><i class="fa fa-angle-double-right"></i>About</a></li>
-            <li><a href="{% url 'allbooks' %}";"><i class="fa fa-angle-double-right"></i>Books</a></li>
-            <li><a href="{% url 'login' %}";"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
+            <li><a href="{% url 'home' %}"><i class="fa fa-angle-double-right"></i>Home</a></li>
+            <li><a href="{% url 'user_login' %}";"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
             <li><a href="{% url 'favorites' %}";"><i class="fa fa-angle-double-right"></i>Favorites</a></li>
           </ul>
         </div>
-        <div class="col-xs-12 col-sm-3 col-md-3">
-          <h5>Author</h5>
-          <ul class="list-unstyled quick-links">
-            <li><a href="#";"><i class="fa fa-angle-double-right"></i>Author Search</a></li>
-            <li><a href="#";"><i class="fa fa-angle-double-right"></i>Add Author</a></li>
-            <li><a href="#";"><i class="fa fa-angle-double-right"></i>View Author</a></li>
-            <li><a href="#";"><i class="fa fa-angle-double-right"></i>Update Author</a></li>
-            <li><a href="#";"><i class="fa fa-angle-double-right"></i>#</a></li>
-          </ul>
-        </div>
-        <div class="col-xs-12 col-sm-3 col-md-3">
+                <div class="col-xs-12 col-sm-3 col-md-3">
           <h5>Developer</h5>
           <ul class="list-unstyled quick-links">
-            <li><a href="#";"><i class="fa fa-angle-double-right"></i>Developer Home</a></li>
-            <li><a href="#";"><i class="fa fa-angle-double-right"></i>DevCall</a></li>
-            <li><a href="#";"><i class="fa fa-angle-double-right"></i>ReachOut</a></li>
-            <li><a href="#";"><i class="fa fa-angle-double-right"></i>Participate</a></li>
+            <li><a href="{% url 'dev_home' %}"><i class="fa fa-angle-double-right"></i>Developer Home</a></li>
           </ul>
         </div>
         <div class="col-xs-12 col-sm-3 col-md-3">
           <h5>BooKeeper System</h5>
           <ul class="list-unstyled quick-links">
-            <li><a href="#";"><i class="fa fa-angle-double-right"></i>Users Online : {{ request.online_now |length }}</a></li>
-            <li><a href="#";"><i class="fa fa-angle-double-right"></i> Next Update: 01-01-2020</a></li>
-            <li><a href="#";"><i class="fa fa-angle-double-right"></i>Update List </a></li>
-            <li><a href="#";"><i class="fa fa-angle-double-right"></i> Get Author Badge</a></li>
+            <li><a href="#"><i class="fa fa-angle-double-right"></i>Users Online : {{ request.online_now |length }}</a></li>
+            <li><a href="{% url 'opensource' %}"><i class="fa fa-angle-double-right"></i>Open Source</a></li>
           </ul>
         </div>
       </div>
@@ -45,18 +28,16 @@
         <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
           <ul class="list-unstyled list-inline social text-center">
             <li class="list-inline-item"><a href="#";"><i class="fa fa-facebook"></i></a></li>
-            <li class="list-inline-item"><a href="#";"><i class="fa fa-twitter"></i></a></li>
-            <li class="list-inline-item"><a href="#";"><i class="fa fa-instagram"></i></a></li>
-            <li class="list-inline-item"><a href="#";"><i class="fa fa-google-plus"></i></a></li>
-            <li class="list-inline-item"><a href="#";" target="_blank"><i class="fa fa-envelope"></i></a></li>
+            <li class="list-inline-item"><a href="https://twitter.com/Flipin20"><i class="fa fa-twitter"></i></a></li>
+            <li class="list-inline-item"><a href="https://www.instagram.com/flipin20/";"><i class="fa fa-instagram"></i></a></li>
+            <li class="list-inline-item"><a href="mailto:zoroknight000@gmail.com";" target="_blank"><i class="fa fa-envelope"></i></a></li>
           </ul>
         </div>
         </hr>
       </div>
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
-          <p><u><a href="#">BooKeeper</a></u></p>
-          <p class="h6">&copy All right Reversed.<a class="text-green ml-2" href="#" target="_blank">BooKeeper</a></p>
+          <p>&copy All right Reversed.</p><a class="text-green ml-2" href="/terms" target="_blank"><img src="{% static "logo.svg" %}">Flipin</a>
         </div>
         </hr>
       </div>

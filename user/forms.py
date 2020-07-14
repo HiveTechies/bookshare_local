@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile, Developer
+from .models import Profile, Developer, ExplicitReport
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -26,6 +26,16 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['image', 'quote', 'country', 'aboutme']
+
+class ReportForm(forms.ModelForm):
+    url = forms.URLField()
+    name_of_book= forms.CharField(widget=forms.TextInput(attrs={'size':15, 'maxlength':40}))
+    report = forms.CharField(widget=forms.TextInput(attrs={'size':15, 'max_length':60}))
+
+    class Meta:
+        model = ExplicitReport
+        fields = ['url','name_of_book','report']
+
 
 class DeveloperRegistrationForm(forms.ModelForm):
     mail = forms.EmailField(widget=forms.TextInput(attrs={'size':15, 'maxlength':50}))

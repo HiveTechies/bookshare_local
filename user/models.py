@@ -39,6 +39,14 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse('profile')
 
+class ExplicitReport(models.Model):
+    url=models.CharField(max_length=200)
+    name_of_book= models.CharField(max_length=100)
+    report=models.CharField(max_length=200)
+
+    def __str__(self):
+        return f'{name_of_book}'
+
 class Developer(models.Model):
     name = models.CharField(max_length=50)
     first_name = models.CharField(max_length=50)

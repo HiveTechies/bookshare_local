@@ -16,11 +16,7 @@
     <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
     <link rel="icon" href="{% static 'logo_top.svg' %}">
     <script src="https://kit.fontawesome.com/2f18b7f943.js" crossorigin="anonymous"></script>
-    {% if title%}
-  <title>Zoro - {{  title  }}</title>
-  {%else%}
-  <title>Zoro</title>
-  {%endif%}
+  <title>Flipin</title>
   {% block extrahead %}{% endblock extrahead %}
 </head>
 
@@ -45,7 +41,7 @@
           <!-- Navbar Right Side -->
           <div class="navbar-nav">
             {% if request.user.is_authenticated %}
-            <a class="nav-item nav-link" href="{% url 'studio' %}" ><img class="w-5" src="{% static 'logo.svg' %}" alt="Zoro" style="width:20px;"> Studio</a>
+            <a class="nav-item nav-link" href="{% url 'studio' %}" ><img class="w-10" src="{% static 'logo.svg' %}" alt="Zoro" style="width:50px;"> Studio</a>
             <a class="nav-item nav-link" href="{% url 'profile' %}" style="font-size: 16px;"><img class="w-5" src="{{ user.profile.image.url }}" alt="Profile Img" style="width:20px;">{{request.user.username}} </a> 
           <div class="dropdown show dropleft">
             <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
@@ -62,7 +58,6 @@
             </div>
           </div>
             {% else %}
-            <a class="nav-item nav-link" href="{% url 'about' %}"> About </a>
             <a class="nav-item nav-link" href="{% url 'user_login' %}"> LogIn </a>
             <a class="nav-item nav-link" href="{% url 'register' %}"> SignUp </a>
             {% endif%}
@@ -104,11 +99,9 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="{% static 'js/jquery-3.4.1.min.js' %}" type="text/javascript"></script>
   <script>
-    
   </script>
-  
   {% block javascript %}
-  {% endblock %}  
+  {% endblock %}
   {% include 'user/scripts.html' %}
   {% include 'user/footer.html' %}
 </body>
