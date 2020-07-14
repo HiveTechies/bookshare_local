@@ -8,7 +8,6 @@ from django.contrib import messages
 urlpatterns = [
     path('',views.home, name='home'),
     path('trending/', views.trending,name="trending"),
-    path('profile/', views.profile, name='profile'),
     path('view_profile/<str:username>', views.view_profile, name='profile_detail'),
     path('studio/',views.studio,name='studio'),
     path('following/',views.following,name='following'),
