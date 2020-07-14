@@ -54,12 +54,12 @@
               <a class="nav-item nav-link" href="{% url 'following' %}" ><i class="fas fa-user-friends"></i> Following</a>
               <a class="nav-item nav-link" href="{% url 'friendship_home' %}" ><i class="fas fa-user-friends"></i> Friends</a>
               <div class="dropdown-divider"></div>
-              <a class="nav-item nav-link" href="{% url 'user_logout' %}"><i class="fas fa-sign-out-alt icon"></i> Logout</a>
+              <a class="nav-item nav-link" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt icon"></i> Logout</a>
             </div>
           </div>
             {% else %}
-            <a class="nav-item nav-link" href="{% url 'user_login' %}"> LogIn </a>
-            <a class="nav-item nav-link" href="{% url 'register' %}"> SignUp </a>
+            <a class="nav-item nav-link" href="{% url 'account_login' %}"> LogIn </a>
+            <a class="nav-item nav-link" href="{% url 'account_signup' %}"> SignUp </a>
             {% endif%}
           </div>
         </div>

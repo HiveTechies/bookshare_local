@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm, DeveloperRegistrationForm, ReportForm
+from .forms import ProfileUpdateForm, DeveloperRegistrationForm, ReportForm
 from django.contrib.auth.decorators import login_required
 from book.models import Book
 from .models import Collection, Profile, ExplicitReport
@@ -86,29 +86,6 @@ def studio(request):
         )
     return render(request,'user/studio.html')
 
-def register(request):
-    if request.user.is_authenticated:
-        return HttpResponseRedirect('/profile/')
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(
-                request, f'Your Account has been created successfully!')
-            messages.success(
-                request, f'After logging in, you are automatically provided with 3 collections\n which will track your reading status')
-            human = True
-            user = User.objects.get(username=username)
-            Collection.objects.create(user=user, name='Read')
-            Collection.objects.create(user=user, name='On the Way..')
-            Collection.objects.create(user=user, name='To be Read..')
-            return redirect('user_login')
-    else:
-        form = UserRegistrationForm()
-    return render(request, 'user/registration.html', {'form': form})
-
-
 @login_required
 def profile(request):
     if request.method == 'POST':
@@ -130,14 +107,6 @@ def profile(request):
         'p_form': p_form
     }
     return render(request, 'user/profile.html', context)
-
-
-def logout(request):
-    return render(request, 'user/home.html')
-
-
-def about(request):
-    return render(request, 'user/about.html')
 
 
 def view_user_profile(request, user_id):

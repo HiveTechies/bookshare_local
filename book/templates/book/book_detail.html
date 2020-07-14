@@ -72,7 +72,7 @@
                   {% endif %} &nbsp;
                 {% endif %}
               <br>
-              <i class="fas fa-feather-alt"></i> <a class="mr-6 text-decoration-none" href="{% url 'profile_detail' book.author.username %}">{{book.author}}</a> &middot; <span>{{ book.hit_count.hits }} </span> <small>views</small>
+              <i class="fas fa-feather-alt"></i> <a class="mr-6 text-decoration-none" href="{% url 'profile_detail' book.author.username %}">{{book.author}}</a> &middot; <span>{{ book.hit_count.hits }} </span> <small>view{{ bootk.hit_count.hits|pluralize:",s" }}</small>
               <br>
               {% for gen in book.genre.all %}
                       <a class="mr-6" href="{% url 'genre-book' gen %}"><span class="btn">{{gen}}</span></a>
