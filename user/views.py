@@ -4,7 +4,7 @@ from django.contrib import messages
 from .forms import DeveloperRegistrationForm, ReportForm
 from django.contrib.auth.decorators import login_required
 from book.models import Book
-from .models import Collection, Profile, ExplicitReport
+from .models import Collection, ExplicitReport
 from django.contrib.auth.models import User
 from book.models import Book
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
