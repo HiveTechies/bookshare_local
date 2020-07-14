@@ -242,8 +242,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER='zoroknight000@gmail.com'
-EMAIL_HOST_PASSWORD='Pr@deep1999'
-DEFAULT_FROM_EMAIL = "Helpdesk <helpdesk@Flipin>"
+EMAIL_HOST_PASSWORD='N@gamani1999'
+DEFAULT_FROM_EMAIL = "Flipin"
 
 
 #POSTMAN MESSAGES SETTINGS
