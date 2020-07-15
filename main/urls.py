@@ -4,6 +4,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 import debug_toolbar
 
+
+
 urlpatterns = [
     path('', include('user.urls')),
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
@@ -27,5 +29,5 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-handler404 = 'user.views.handler404'
-handler500 = 'user.views.handler500'
+handler404 = 'user.views.error_404_view'
+handler500 = 'user.views.error_500_view'

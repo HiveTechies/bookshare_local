@@ -90,17 +90,6 @@ def view_user_profile(request, user_id):
     return render(request, 'user/profile.html')
 
 
-def handler404(request, exception):
-    response = render("user/404.html")
-    response.status_code = 404
-    return response
-
-
-def handler500(request):
-    response = render('user/500.html')
-    response.status_code = 500
-    return response
-
 def following(request):
     return render(request, 'user/following.html')
 
@@ -148,3 +137,9 @@ def dev_thanks(request):
 
 def opensource(request):
     return render(request, 'user/opensource.html')
+
+def error_404_view(request, exception):
+    return render(request,'user/404.html')
+
+def error_500_view(request):
+    return render(request, 'user/500.html')
