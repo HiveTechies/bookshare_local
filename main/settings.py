@@ -232,7 +232,7 @@ MEDIA_URL = '/media/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 #REDIRECT SETTINGS
-LOGIN_URL = 'user_login'
+LOGIN_URL = '/account/login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
@@ -259,8 +259,8 @@ SITE_ID = 1
 #Book View settings
 
 
-PROFILE_APP_NAME = 'user'
-PROFILE_MODEL_NAME = 'Profile'
+PROFILE_APP_NAME = 'accounts'
+PROFILE_MODEL_NAME = 'Account'
 
 
 # DJANGO FILTER SETTINGS 
@@ -350,4 +350,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAdminUser',
     ]
 }
+
+# ACCOUNT SETTINGS STARTS HERE
+ACCOUNT_OPEN_SIGNUP=False
+ACCOUNT_EMAIL_CONFIRMATION_REQUIRED=True
+ACCOUNT_EMAIL_CONFIRMATION_EMAIL=True
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL='account_login'
 django_heroku.settings(locals())

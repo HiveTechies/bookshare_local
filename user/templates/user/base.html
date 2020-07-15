@@ -42,7 +42,6 @@
           <div class="navbar-nav">
             {% if request.user.is_authenticated %}
             <a class="nav-item nav-link" href="{% url 'studio' %}" ><img class="w-10" src="{% static 'logo.svg' %}" alt="Zoro" style="width:50px;"> Studio</a>
-            <a class="nav-item nav-link" href="{% url 'profile' %}" style="font-size: 16px;"><img class="w-5" src="{{ user.profile.image.url }}" alt="Profile Img" style="width:20px;">{{request.user.username}} </a> 
           <div class="dropdown show dropleft">
             <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
             <div class="dropdown-menu shadow p-3" aria-labelledby="dropdownMenuLink">
@@ -81,7 +80,8 @@
         {% endblock content %}
       </div>
     </div>
-</main>
+    <br>
+    </main>
   <br><br><br>
   {% block extra_js %}{% endblock extra_js %}
   <!-- Optional JavaScript -->
@@ -104,5 +104,6 @@
   {% endblock %}
   {% include 'user/scripts.html' %}
   {% include 'user/footer.html' %}
+  <small > Report if any book title or image content is misleading, hateful, harmful.</small>
 </body>
 </html>

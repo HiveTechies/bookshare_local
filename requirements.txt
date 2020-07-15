@@ -83,7 +83,6 @@ pinax-calendars==2.0.4
 pinax-images==4.0.0
 pinax-invitations==6.1.2
 pinax-teams @ git+https://github.com/HiveTechies/pinax-teams-changed.git@2a4e47d7febb709c122b9589ac3cdea2af4ee37e
-git+https://github.com/HiveTechies/pinax-templates
 progress==1.5
 psycopg2==2.8.5
 progress==1.5
@@ -124,3 +123,4 @@ whitenoise
 django-heroku
 git+https://github.com/HiveTechies/todo-changed
 django-admin-honeypot
+git+https://github.com/HiveTechies/pinax-templates

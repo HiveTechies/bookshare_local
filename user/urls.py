@@ -13,6 +13,7 @@ urlpatterns = [
     path('following/',views.following,name='following'),
     path('messages/', include('postman.urls', namespace='postman'), name='messages'),
     path('user_search/', views.user_search, name='user_search'),
+
     path('report/',views.report, name='report'),
     path('report_thanks/', views.report_thanks, name='report_thanks'),
     #  friendship app
