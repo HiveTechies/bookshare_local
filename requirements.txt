@@ -28,7 +28,7 @@ django-countries==6.1.2
 django-crispy-forms==1.9.1
 django-debug-toolbar==2.2
 django-filter==2.3.0
-django-friendship @ git+https://github.com/HiveTechies/django-friendship
+git+https://github.com/HiveTechies/django-friendship-change
 django-hitcount @ git+https://github.com/HiveTechies/django-hitcount
 django-imagekit==4.0.2
 django-ipware==3.0.0
